@@ -1,0 +1,54 @@
+{
+  "name": "criss-bot-twitch",
+  "version": "2.0.0",
+  "description": "Advanced TypeScript Twitch Task & Pomodoro Bot with OAuth",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "ts-node --watch src/index.ts",
+    "clean": "rimraf dist",
+    "lint": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit",
+    "auth": "node scripts/token-generator.js",
+    "auth:generate": "node scripts/token-generator.js",
+    "auth:refresh": "node scripts/refresh-token.js",
+    "auth:validate": "node scripts/validate-token.js",
+    "auth:setup": "node scripts/setup-auth.js",
+    "prebuild": "npm run clean && npm run lint && npm run type-check",
+    "health-check": "curl -f http://localhost:3000/api/tasks || exit 1"
+  },
+  "keywords": [
+    "twitch",
+    "bot",
+    "oauth",
+    "pomodoro",
+    "tasks",
+    "typescript",
+    "streaming"
+  ],
+  "author": "CrissXC",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.21.2",
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.23",
+    "@types/node": "^20.8.0",
+    "@types/tmi.js": "^1.8.6",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint": "^8.52.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
