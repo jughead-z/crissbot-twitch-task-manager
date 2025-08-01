@@ -1,5 +1,0 @@
-{
-  "/api/streamers/route": "app/api/streamers/route.js",
-  "/api/tasks/route": "app/api/tasks/route.js",
-  "/page": "app/page.js"
-}

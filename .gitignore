@@ -1,10 +1,63 @@
-
+# Create comprehensive .gitignore
+@"
 # Dependencies
 node_modules/
 **/node_modules/
 
 # Environment files
 .env
-**/.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 bot/.env
 criss_bot/.env
+
+# Data files - do not commit actual data
+bot/data/*.json
+criss_bot/data/*.json
+criss_bot_data.json
+tasks.json
+**/tasks.json
+**/*_data.json
+
+# Keep directory structure but not data
+!bot/data/.gitkeep
+!criss_bot/data/.gitkeep
+
+# Next.js build files
+.next/
+**/.next/
+criss_bot/.next/
+out/
+build/
+dist/
+
+# TypeScript
+*.tsbuildinfo
+bot/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+.tmp/
+temp/
+
+# OAuth tokens
+bot/scripts/tokens.json
+tokens.json
+"@ | Out-File -FilePath ".gitignore" -Encoding utf8
