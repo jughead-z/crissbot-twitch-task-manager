@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "text": "hamid test",
+      "username": "criss_xc",
+      "status": "pending",
+      "createdAt": "2025-08-01T00:09:49.169Z",
+      "updatedAt": "2025-08-01T00:09:49.169Z",
+      "id": "task_1"
+    }
+  ],
+  "taskCounter": 2,
+  "pomodoro": {
+    "isActive": false,
+    "timeLeft": 1500,
+    "mode": "work",
+    "session": 1,
+    "startTime": null,
+    "initiatedBy": null,
+    "autoBreaks": true
+  }
+}

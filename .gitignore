@@ -2,3 +2,9 @@
 # Dependencies
 node_modules/
 **/node_modules/
+
+# Environment files
+.env
+**/.env
+bot/.env
+criss_bot/.env

@@ -1,0 +1,142 @@
+/* [project]/src/styles/animations.css [app-client] (css) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, .4);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(168, 85, 247, .8);
+  }
+}
+
+@keyframes rainbow-border {
+  0% {
+    border-color: rgba(168, 85, 247, .6);
+  }
+
+  25% {
+    border-color: rgba(16, 185, 129, .6);
+  }
+
+  50% {
+    border-color: rgba(249, 115, 22, .6);
+  }
+
+  75% {
+    border-color: rgba(239, 68, 68, .6);
+  }
+
+  100% {
+    border-color: rgba(168, 85, 247, .6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes vertical-scroll {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes scroll-glow {
+  0%, 100% {
+    opacity: .3;
+  }
+
+  50% {
+    opacity: .8;
+  }
+}
+
+.animate-fade-in {
+  animation: .5s ease-out forwards fade-in;
+}
+
+.animate-fade-in-up {
+  animation: .6s ease-out forwards fade-in-up;
+}
+
+.animate-slide-in-right {
+  animation: .5s ease-out forwards slide-in-right;
+}
+
+.animate-glow-pulse {
+  animation: 2s ease-in-out infinite glow-pulse;
+}
+
+.animate-rainbow-border {
+  animation: 3s linear infinite rainbow-border;
+}
+
+.animate-float {
+  animation: 3s ease-in-out infinite float;
+}
+
+.animate-vertical-scroll {
+  animation: .5s ease-in-out vertical-scroll;
+}
+
+.animate-scroll-glow {
+  animation: 2s ease-in-out infinite scroll-glow;
+}
+
+.task-scroll-container {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.task-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/*# sourceMappingURL=src_styles_animations_css_e59ae46c._.single.css.map*/
