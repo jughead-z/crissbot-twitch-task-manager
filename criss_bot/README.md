@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🤖 CrissBot - Twitch Task Management System
 
-## Getting Started
+A powerful TypeScript Twitch bot with Next.js overlay for real-time task management during streams.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Real-time Task Management**: Add, edit, complete, and delete tasks via Twitch chat
+- **Interactive Overlay**: Beautiful centered overlay for OBS/streaming software
+- **User-specific Tasks**: Each viewer manages their own task list
+- **Live Updates**: Real-time synchronization between bot and overlay
+- **Statistics Tracking**: Command usage and bot uptime statistics
+- **OAuth Integration**: Secure Twitch authentication
+
+## 🎮 Twitch Commands
+
+| Command | Description | Usage |
+|---------|-------------|-------|
+| `!add` | Add a new task | `!add Fix the navbar bug` |
+| `!done` | Mark task as completed | `!done 1` |
+| `!edit` | Edit existing task | `!edit 1 Update navbar styling` |
+| `!mytasks` | Show your tasks | `!mytasks` |
+| `!cleardone` | Clear completed tasks | `!cleardone` |
+| `!taskhelp` | Show task commands | `!taskhelp` |
+| `!commands` | List all commands | `!commands` |
+| `!ping` | Test bot response | `!ping` |
+| `!stats` | Show bot statistics | `!stats` |
+
+## 🛠️ Tech Stack
+
+### **Bot (TypeScript)**
+- **TMI.js** - Twitch chat integration
+- **Axios** - HTTP client for API calls
+- **Node.js** - Runtime environment
+
+### **Frontend/API (Next.js 14)**
+- **React** - UI components
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Socket.io** - Real-time updates
+- **Next.js API Routes** - Backend endpoints
+
+## 📁 Project Structure
+
+```
+twitch-task-bot-next/
+├── bot/                          # TypeScript Twitch Bot
+│   ├── src/
+│   │   ├── commands/            # TaskCommands, UtilityCommands
+│   │   ├── services/            # ApiService
+│   │   ├── utils/               # CommandRegistry, StatsManager
+│   │   └── CrissBot.ts          # Main bot class
+│   ├── scripts/                 # OAuth token generation
+│   └── .env                     # Bot credentials
+├── criss_bot/                   # Next.js Frontend + API
+│   ├── src/app/api/
+│   │   └── tasks/               # Task management API
+│   ├── src/components/
+│   │   └── TaskDisplay.tsx      # Main overlay component
+│   └── data/                    # JSON file storage
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Prerequisites**
+- Node.js 18+ 
+- npm or yarn
+- Twitch Developer Account
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **Installation**
 
-## Learn More
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/crissbot-twitch-task-manager.git
+   cd crissbot-twitch-task-manager
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install bot dependencies**
+   ```bash
+   cd bot
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Install frontend dependencies**
+   ```bash
+   cd ../criss_bot
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Set up Twitch OAuth**
+   ```bash
+   cd ../bot
+   npm run generate-token
+   ```
+   Follow the prompts to authenticate with Twitch.
 
-## Deploy on Vercel
+5. **Configure environment**
+   Create `bot/.env`:
+   ```env
+   TWITCH_BOT_USERNAME=your_bot_username
+   TWITCH_CHANNEL=your_channel_name
+   TWITCH_OAUTH_TOKEN=oauth:your_token_here
+   API_BASE_URL=http://localhost:3000/api
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Running the Application**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Start the Next.js server**
+   ```bash
+   cd criss_bot
+   npm run dev
+   ```
+
+2. **Start the bot** (in a new terminal)
+   ```bash
+   cd bot
+   npm run dev
+   ```
+
+3. **Add overlay to OBS**
+   - Add Browser Source
+   - URL: `http://localhost:3000`
+   - Width: 1920, Height: 1080
+
+## 🎯 Usage
+
+1. **In Twitch Chat**: Use commands like `!add Fix navbar bug`
+2. **Overlay**: Tasks appear in real-time on your stream
+3. **Management**: Complete with `!done 1`, edit with `!edit 1 New text`
+
+## 🔧 Configuration
+
+### **Bot Settings**
+Edit `bot/src/CrissBot.ts` to customize:
+- Command prefixes
+- Rate limiting
+- Response messages
+
+### **Overlay Styling**
+Modify `criss_bot/src/components/TaskDisplay.tsx` for:
+- Visual appearance
+- Positioning
+- Animations
+
+## 📡 API Endpoints
+
+- `GET /api/tasks` - Fetch all tasks
+- `POST /api/tasks` - Create new task
+- `PUT /api/tasks/[id]` - Edit task
+- `PUT /api/tasks/[id]/done` - Mark task complete
+- `DELETE /api/tasks` - Clear tasks
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **TMI.js** community for Twitch integration
+- **Next.js** team for the amazing framework
+- **Twitch** for the platform and API
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+- Open an [Issue](https://github.com/YOUR_USERNAME/crissbot-twitch-task-manager/issues)
+- Check existing issues for solutions
+- Join the discussion in Issues
+
+---
+
+**Happy Streaming! 🎮✨**
