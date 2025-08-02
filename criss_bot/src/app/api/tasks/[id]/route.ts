@@ -39,6 +39,7 @@ export async function GET(
 ) {
   try {
     const taskId = parseInt(params.id); // Parse as number
+    const username = request.nextUrl.searchParams.get("username");
 
     if (isNaN(taskId)) {
       return NextResponse.json(
@@ -47,8 +48,18 @@ export async function GET(
       );
     }
 
+    if (!username) {
+      return NextResponse.json(
+        { success: false, error: "Username is required" },
+        { status: 400 }
+      );
+    }
+
     const tasks = await loadTasks();
-    const task = tasks.find((t) => t.id === taskId);
+    const task = tasks.find(
+      (t) =>
+        t.id === taskId && t.username.toLowerCase() === username.toLowerCase()
+    );
 
     if (!task) {
       return NextResponse.json(
@@ -88,7 +99,10 @@ export async function PUT(
     }
 
     const tasks = await loadTasks();
-    const taskIndex = tasks.findIndex((t) => t.id === taskId);
+    const taskIndex = tasks.findIndex(
+      (t) =>
+        t.id === taskId && t.username.toLowerCase() === username.toLowerCase()
+    );
 
     if (taskIndex === -1) {
       return NextResponse.json(
@@ -98,14 +112,6 @@ export async function PUT(
     }
 
     const task = tasks[taskIndex];
-
-    // Check ownership
-    if (task.username.toLowerCase() !== username.toLowerCase()) {
-      return NextResponse.json(
-        { success: false, error: "You can only edit your own tasks" },
-        { status: 403 }
-      );
-    }
 
     // Update task
     if (text) {
@@ -145,6 +151,8 @@ export async function DELETE(
 ) {
   try {
     const taskId = parseInt(params.id); // Parse as number
+    const body = await request.json();
+    const { username } = body;
 
     if (isNaN(taskId)) {
       return NextResponse.json(
@@ -154,7 +162,10 @@ export async function DELETE(
     }
 
     const tasks = await loadTasks();
-    const taskIndex = tasks.findIndex((t) => t.id === taskId);
+    const taskIndex = tasks.findIndex(
+      (t) =>
+        t.id === taskId && t.username.toLowerCase() === username.toLowerCase()
+    );
 
     if (taskIndex === -1) {
       return NextResponse.json(
@@ -163,10 +174,12 @@ export async function DELETE(
       );
     }
 
+    const task = tasks[taskIndex];
+
     const deletedTask = tasks.splice(taskIndex, 1)[0];
     await saveTasks(tasks);
 
-    console.log(`🗑️ Task #${taskId} deleted`);
+    console.log(`🗑️ Task #${taskId} deleted by ${username}`);
 
     return NextResponse.json({
       success: true,

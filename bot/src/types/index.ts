@@ -47,6 +47,8 @@ export interface CommandContext {
   username: string;
   isModerator: boolean;
   isBroadcaster: boolean;
+  isSubscriber: boolean;
+  isVip: boolean;
   replyFn: (text: string) => void;
   sayFn: (text: string) => void;
 }
@@ -58,7 +60,13 @@ export interface CommandHandler {
   usage: string;
   examples?: string[];
   cooldown: number;
-  permissions: ("everyone" | "subscriber" | "moderator" | "broadcaster")[];
+  permissions: (
+    | "everyone"
+    | "subscriber"
+    | "moderator"
+    | "broadcaster"
+    | "vip"
+  )[];
   category: "tasks" | "pomodoro" | "utility";
   execute: (context: CommandContext) => Promise<void>;
 }
@@ -88,11 +96,30 @@ export type PermissionLevel =
   | "everyone"
   | "subscriber"
   | "moderator"
-  | "broadcaster";
+  | "broadcaster"
+  | "vip";
 
 // Cooldown tracking
 export interface CooldownEntry {
   command: string;
   userId: string;
   expiresAt: number;
+}
+
+export interface Cooldown {
+  userId: string;
+  command: string;
+  expiresAt: number;
+}
+
+// Bot Error Types
+export class BotError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public isUserFacing: boolean = false
+  ) {
+    super(message);
+    this.name = "BotError";
+  }
 }

@@ -119,6 +119,14 @@ export class CrissBot {
     });
 
     this.commandRegistry.register({
+      name: "delete",
+      description: "Delete a task by ID",
+      usage: "!delete 1",
+      cooldown: 3,
+      execute: taskCommands.deleteTask.bind(taskCommands),
+    });
+
+    this.commandRegistry.register({
       name: "mytasks",
       description: "Show your tasks",
       usage: "!mytasks",
@@ -201,6 +209,8 @@ export class CrissBot {
         username: userstate.username || "unknown",
         isModerator: userstate.mod || false,
         isBroadcaster: userstate.badges?.broadcaster === "1" || false,
+        isSubscriber: userstate.subscriber || false,
+        isVip: userstate.badges?.vip === "1" || false,
         replyFn: (text: string) =>
           this.reply(
             channel,
@@ -241,7 +251,14 @@ export class CrissBot {
   }
 
   private getAvailableCommands(): string {
-    const taskCommands = ["!add", "!edit", "!done", "!mytasks", "!cleardone"];
+    const taskCommands = [
+      "!add",
+      "!edit",
+      "!done",
+      "!delete",
+      "!mytasks",
+      "!cleardone",
+    ];
     const helpCommands = ["!taskhelp", "!commands", "!ping", "!stats"];
 
     return [...taskCommands, ...helpCommands].join(", ");

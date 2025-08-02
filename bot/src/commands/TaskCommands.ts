@@ -186,20 +186,24 @@ export class TaskCommands {
       const response = await this.apiService.get<Task[]>("/tasks");
 
       if (response.success && response.data) {
-        const completedTasks = response.data.filter(
-          (task) => task.status === "done"
+        const userCompletedTasks = response.data.filter(
+          (task) =>
+            task.status === "done" &&
+            task.username.toLowerCase() === context.username.toLowerCase()
         );
 
-        if (completedTasks.length === 0) {
+        if (userCompletedTasks.length === 0) {
           context.replyFn("📝 No completed tasks to clear.");
           return;
         }
 
         // Delete each completed task
         let deletedCount = 0;
-        for (const task of completedTasks) {
+        for (const task of userCompletedTasks) {
           try {
-            await this.apiService.delete(`/tasks/${task.id}`);
+            await this.apiService.deleteWithBody(`/tasks/${task.id}`, {
+              username: context.username,
+            });
             deletedCount++;
           } catch (error) {
             console.error(`Error deleting task ${task.id}:`, error);
@@ -223,9 +227,58 @@ export class TaskCommands {
     }
   }
 
+  async deleteTask(context: CommandContext): Promise<void> {
+    const taskIdArg = context.args[0];
+
+    if (!taskIdArg) {
+      context.replyFn(
+        "❌ Please provide a task ID. Usage: !delete 1 or !delete task_1"
+      );
+      return;
+    }
+
+    // Handle both numeric and string IDs
+    let taskId: string | number = taskIdArg;
+
+    // If it's a number, convert to number, otherwise keep as string
+    if (!isNaN(parseInt(taskIdArg))) {
+      taskId = parseInt(taskIdArg);
+    }
+
+    console.log(
+      `🔍 Debug: User ${
+        context.username
+      } trying to delete task ${taskId} (type: ${typeof taskId})`
+    );
+
+    try {
+      // For DELETE requests, we need to send data in the request body
+      // We'll use a custom method or modify the API service
+      const response = await this.apiService.deleteWithBody<Task>(
+        `/tasks/${taskId}`,
+        {
+          username: context.username,
+        }
+      );
+
+      console.log(`🔍 Debug: API response:`, response);
+
+      if (response.success && response.data) {
+        context.replyFn(`🗑️ Task #${taskId} deleted successfully!`);
+      } else {
+        context.replyFn(
+          "❌ Failed to delete task. Make sure the task exists and you have permission."
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      context.replyFn("❌ Error deleting task. Please try again.");
+    }
+  }
+
   async taskHelp(context: CommandContext): Promise<void> {
     const helpMessage =
-      "📋 Task Commands: !add [task] (create) | !edit [id] [text] (modify) | !done [id] (complete) | !mytasks (list yours) | !cleardone (clear completed - mods only)";
+      "📋 Task Commands: !add [task] (create) | !edit [id] [text] (modify) | !done [id] (complete) | !delete [id] (delete) | !mytasks (list yours) | !cleardone (clear completed - mods only) - Each user has their own task IDs starting from 1!";
     context.replyFn(helpMessage);
   }
 }

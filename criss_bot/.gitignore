@@ -53,12 +53,17 @@ pids/
 # Data files (keep structure but not sensitive data)
 bot/data/*.json
 criss_bot/data/*.json
+tasks.json
+**/tasks.json
+**/*_data.json
 !bot/data/.gitkeep
 !criss_bot/data/.gitkeep
 
 # OAuth tokens and credentials
+bot/tokens.json
 bot/scripts/tokens.json
 tokens.json
+**/tokens.json
 
 # Temporary files
 .tmp/

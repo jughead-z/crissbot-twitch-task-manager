@@ -142,6 +142,24 @@ Modify `criss_bot/src/components/TaskDisplay.tsx` for:
 - Positioning
 - Animations
 
+## 🔒 Sensitive Files
+
+The following files contain sensitive data and are **NOT** pushed to GitHub:
+
+- `bot/tokens.json` - OAuth tokens for Twitch authentication
+- `criss_bot/data/tasks.json` - User task data
+- `criss_bot/data/criss_bot_data.json` - Application data
+
+### **If you have these files tracked in git:**
+Run the provided script to remove them from tracking:
+```bash
+./remove-sensitive-files.ps1
+```
+
+### **Creating these files locally:**
+- `tokens.json` is generated when you run `npm run generate-token` in the bot directory
+- `tasks.json` and `criss_bot_data.json` are created automatically when the application runs
+
 ## 📡 API Endpoints
 
 - `GET /api/tasks` - Fetch all tasks

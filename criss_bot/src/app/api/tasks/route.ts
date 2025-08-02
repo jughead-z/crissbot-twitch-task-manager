@@ -41,11 +41,14 @@ async function saveTasks(tasks: Task[]): Promise<void> {
   await fs.writeFile(TASKS_FILE, JSON.stringify(tasks, null, 2));
 }
 
-// Generate next numeric ID
-function getNextId(tasks: Task[]): number {
-  if (tasks.length === 0) return 1;
-  const maxId = Math.max(...tasks.map((task) => task.id));
-  return maxId + 1;
+// Generate next numeric ID for a specific user
+function getNextUserId(tasks: Task[], username: string): number {
+  const userTasks = tasks.filter(
+    (task) => task.username.toLowerCase() === username.toLowerCase()
+  );
+  if (userTasks.length === 0) return 1;
+  const maxUserId = Math.max(...userTasks.map((task) => task.id));
+  return maxUserId + 1;
 }
 
 // GET - Get all tasks
@@ -88,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     const tasks = await loadTasks();
     const newTask: Task = {
-      id: getNextId(tasks), // Numeric ID: 1, 2, 3, etc.
+      id: getNextUserId(tasks, username), // User-specific ID: each user starts with 1
       text: text.trim(),
       username: username.toLowerCase(),
       status: "pending",

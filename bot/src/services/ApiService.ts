@@ -108,6 +108,25 @@ export class ApiService {
     }
   }
 
+  async deleteWithBody<T = any>(
+    endpoint: string,
+    data?: any
+  ): Promise<ApiResponse<T>> {
+    try {
+      const response: AxiosResponse<ApiResponse<T>> = await this.client.delete(
+        endpoint,
+        { data }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(`❌ DELETE ${endpoint} failed:`, error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
   async healthCheck(): Promise<boolean> {
     try {
       const response = await this.get("/tasks");

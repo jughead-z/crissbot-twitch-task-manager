@@ -21,6 +21,12 @@ tasks.json
 **/tasks.json
 **/*_data.json
 
+# OAuth tokens and credentials
+bot/tokens.json
+bot/scripts/tokens.json
+tokens.json
+**/tokens.json
+
 # Keep directory structure but not data
 !bot/data/.gitkeep
 !criss_bot/data/.gitkeep
